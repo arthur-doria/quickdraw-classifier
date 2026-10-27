@@ -72,7 +72,7 @@ def preprocess_canvas(img_arr):
 
 st.set_page_config(page_title="QuickDraw Classifier", layout="wide")
 st.title("QuickDraw Sketch Classifier")
-st.markdown("### Classes reconnues :")
+st.markdown("### Possible Objects :")
 st.markdown("## **apple — banana — cat — car — clock — fish — house — star — tree — t-shirt**")
 
 if "reset_count" not in st.session_state:
@@ -81,7 +81,7 @@ if "reset_count" not in st.session_state:
 col_canvas, col_pred = st.columns([1, 1])
 
 with col_canvas:
-    st.write("Dessine à la souris :")
+    st.write("Draw :")
     canvas_result = st_canvas(
         fill_color="rgba(0, 0, 0, 0)",
         stroke_width=18,
@@ -95,12 +95,12 @@ with col_canvas:
         key=f"canvas_{st.session_state['reset_count']}",
     )
 
-    if st.button("Effacer tout", use_container_width=True):
+    if st.button("Clear", use_container_width=True):
         st.session_state["reset_count"] += 1
         st.rerun()
 
 with col_pred:
-    st.write("Résultats :")
+    st.write("Answer :")
     if canvas_result is not None and canvas_result.image_data is not None:
         processed = preprocess_canvas(canvas_result.image_data)
         if processed is not None:
@@ -114,4 +114,4 @@ with col_pred:
                 st.write(f"**{CLASSES[idx]}** ({prob * 100:.1f} %)")
                 st.progress(prob)
         else:
-            st.info("Dessine un objet pour voir la classification.")
+            st.info("Draw an object")
